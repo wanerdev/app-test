@@ -53,7 +53,8 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
 
-RUN groupadd --force -g $WWWGROUP sail
+#RUN groupadd --force -g $WWWGROUP sail
+RUN groupadd -g $WWWGROUP sail || true
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY ./docker/start-container /usr/local/bin/start-container
