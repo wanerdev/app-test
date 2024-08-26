@@ -1,0 +1,55 @@
+src/
+├── Application/
+│   ├── Command/
+│   │   └── Cliente/
+│   │       ├── RegistrarClienteCommand.php          // Comando para registrar un cliente
+│   │       └── RegistrarClienteCommandHandler.php   // Manejador del comando
+│   ├── UseCase/
+│   │   └── Cliente/
+│   │       ├── RegistrarCliente.php                 // Caso de uso para registrar un cliente
+│   │       ├── ObtenerCliente.php                   // Caso de uso para obtener un cliente
+│   │       └── EliminarCliente.php                  // Caso de uso para eliminar un cliente
+│   ├── DTO/
+│   │   └── ClienteDTO.php                           // DTO para cliente
+│   ├── Service/
+│   │   └── ClienteService.php                       // Servicios adicionales de la aplicación
+│   └── Exception/
+│       └── ClienteNoEncontradoException.php         // Excepciones de la capa de aplicación
+│
+├── Domain/
+│   ├── Model/
+│   │   └── Cliente/
+│   │       ├── Cliente.php                          // Entidad de dominio
+│   │       ├── ClienteRepositoryInterface.php       // Interfaz del repositorio
+│   │       ├── ValueObject/
+│   │       │   └── Email.php                        // Objeto de valor
+│   │       └── Exception/
+│   │           └── EmailInvalidoException.php       // Excepciones de dominio
+│   ├── Service/
+│   │   └── CalculadorDeImpuestos.php                // Servicios de dominio
+│   └── Event/
+│       └── ClienteRegistrado.php                    // Evento de dominio
+│
+├── Infrastructure/
+│   ├── Controller/
+│   │   └── ClienteController.php                    // Controlador HTTP
+│   ├── Persistence/
+│   │   └── Doctrine/
+│   │       ├── DoctrineClienteRepository.php        // Implementación del repositorio con Doctrine
+│   │       └── Mapping/
+│   │           └── Cliente.orm.xml                  // Mapeo ORM para la entidad Cliente
+│   ├── Mapper/
+│   │   └── ClienteMapper.php                        // Mapper para convertir entre entidades y DTOs
+│   ├── Service/
+│   │   └── SendGridEmailService.php                 // Servicio técnico (ej. envío de correos)
+│   ├── Request/
+│   │   └── ClienteRequest.php                       // Clases para manejar solicitudes HTTP
+│   ├── Response/
+│   │   └── ClienteResponse.php                      // Clases para manejar respuestas HTTP
+│   └── Exception/
+│       └── InfrastructureException.php              // Excepciones específicas de infraestructura
+│
+└── config/
+    ├── services.yaml                                // Configuración de servicios (ej. Symfony)
+    ├── routes.yaml                                  // Configuración de rutas
+    └── database.php                                 // Configuración de la base de datos
