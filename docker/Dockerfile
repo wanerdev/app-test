@@ -53,11 +53,11 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
 
-# Verifica la existencia del grupo y créalo si no existe
-RUN if ! getent group sail > /dev/null; then groupadd -g $WWWGROUP sail; fi
+# Crear el grupo si no existe
+RUN groupadd --force -g ${WWWGROUP} sail || true
 
-# Verifica la existencia del usuario y créalo si no existe
-RUN if ! id -u sail > /dev/null 2>&1; then useradd -ms /bin/bash --no-user-group -g sail -u 1337 sail; fi
+# Crear el usuario si no existe
+RUN useradd -ms /bin/bash --no-user-group -g sail -u 1337 sail || true
 
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
