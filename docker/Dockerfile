@@ -51,15 +51,23 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
+RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
 
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
+# Copiar archivos necesarios
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
+
+# Cambiar a usuario 'sail' antes de ejecutar Composer
+USER sail
+RUN composer install --no-interaction --prefer-dist
+
+# Volver a root para otras configuraciones
+USER root
 
 EXPOSE 80/tcp
 
