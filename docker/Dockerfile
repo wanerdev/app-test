@@ -64,7 +64,7 @@ RUN chmod +x /usr/local/bin/start-container
 
 # Cambiar a usuario 'sail' antes de ejecutar Composer
 USER sail
-RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist -vvv
 
 # Volver a root para otras configuraciones
 USER root
