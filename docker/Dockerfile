@@ -65,6 +65,13 @@ RUN chown -R sail:sail /var/www/html \
 # Instalar dependencias de Composer
 RUN composer install --no-interaction --optimize-autoloader
 
+# Ejecutar comandos Artisan para preparar la aplicación
+RUN php artisan key:generate \
+    && php artisan migrate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
