@@ -57,6 +57,9 @@ RUN apt-get update \
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
+# Aquí es donde debes añadir la instrucción COPY para copiar los archivos de tu proyecto
+COPY . /var/www/html
+
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
