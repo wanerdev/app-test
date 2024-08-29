@@ -67,4 +67,6 @@ RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 80/tcp
 
+RUN composer install --no-interaction --optimize-autoloader
+
 ENTRYPOINT ["start-container"]
