@@ -9,7 +9,7 @@ ARG POSTGRES_VERSION=15
 
 WORKDIR /var/www/html
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan serve --host=0.0.0.0 --port=80"
 ENV SUPERVISOR_PHP_USER="sail"
@@ -62,14 +62,25 @@ COPY . /var/www/html
 RUN chown -R sail:sail /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Instalar dependencias de Composer
+# Instalar dependencias de Composer y realizar optimizaciones
 RUN composer install --no-interaction --optimize-autoloader
+
+# Realizar las migraciones y otros comandos necesarios de Artisan
+RUN php artisan key:generate \
+    && php artisan migrate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
+
+# Asegurar que el script de inicio sea ejecutable
 RUN chmod +x /usr/local/bin/start-container
 
+# Exponer el puerto 80 para HTTP
 EXPOSE 80/tcp
 
+# Definir el punto de entrada para iniciar el contenedor
 ENTRYPOINT ["start-container"]
