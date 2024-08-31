@@ -66,11 +66,11 @@ RUN chown -R sail:sail /var/www/html \
 RUN composer install --no-interaction --optimize-autoloader
 
 # Realizar las migraciones y otros comandos necesarios de Artisan
-RUN php artisan key:generate \
-    && php artisan migrate --force \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+RUN php artisan key:generate
+RUN php artisan migrate --force
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
 COPY ./docker/start-container /usr/local/bin/start-container
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
