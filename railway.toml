@@ -1,0 +1,14 @@
+[build]
+# Comando para instalar las dependencias de PHP usando Composer
+builder = "composer install --no-dev --optimize-autoloader"
+
+[deploy]
+# Comando que se ejecuta en cada despliegue
+start = "php artisan migrate --force"
+
+# Variables necesarias para el entorno, como la base de datos
+
+# Otros comandos que se podrían ejecutar (opcional)
+[deploy.hooks]
+# Aquí puedes agregar hooks adicionales, como cache:clear si es necesario
+postdeploy = "php artisan config:cache && php artisan route:cache && php artisan view:cache"
